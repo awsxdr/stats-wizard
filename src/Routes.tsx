@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { FromBlankPage, HomePage } from './pages';
+import { FromBlankPage, HomePage, StatsPage } from './pages';
 
 const router = createBrowserRouter([
     {
@@ -9,7 +9,11 @@ const router = createBrowserRouter([
     {
         path: '/fromBlank',
         element: <FromBlankPage />
-    }
+    },
+    {
+        path: '/stats',
+        element: <StatsPage />
+    },
 ])
 
 export const Routes = () => {

@@ -1,0 +1,10 @@
+.title {
+    line-height: 2em;
+    > * {
+        display: inline;
+        margin: .2em;
+    }
+    > span {
+        color: #aaa;
+    }
+}

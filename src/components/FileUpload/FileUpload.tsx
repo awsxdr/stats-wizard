@@ -1,9 +1,24 @@
-import { FileInput, Spinner } from '@blueprintjs/core';
+import { Button, FileInput, Spinner } from '@blueprintjs/core';
 import { useCallback, useState } from 'react';
 
-export const FileUpload = () => {
+interface IFileUploadProps {
+    onFileSelected?: (file: FileInfo) => void,
+    onRemoveFile?: () => void,
+    fileName?: string;
+}
 
-    const [fileName, setFileName] = useState("");
+export class FileInfo {
+    name: string;
+    data?: string;
+
+    constructor(name: string, data?: string) {
+        this.name = name;
+        this.data = data;
+    }
+}
+
+export const FileUpload = ({ fileName, onFileSelected, onRemoveFile }: IFileUploadProps) => {
+
     const [isLoading, setIsLoading] = useState(false);
 
     const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,24 +32,23 @@ export const FileUpload = () => {
 
         const reader = new FileReader();
         reader.onload = () => {
-            localStorage["blank_statsbook"] = reader.result;
+            if(onFileSelected) {
+                onFileSelected(new FileInfo(file.name, reader.result?.toString()));
+            }
             setIsLoading(false);
         };
         reader.readAsDataURL(file);
+    }, [setIsLoading]);
 
-        setFileName(e.target.files && e.target.files[0].name || "")
-    }, [setFileName, setIsLoading]);
+    const handleDelete = () => {
+        onRemoveFile && onRemoveFile();
+    };
 
     return (
         <>
-        
             <FileInput fill onInputChange={handleInputChange} disabled={isLoading} />
-            {
-                isLoading
-                ? (<Spinner />)
-                : (<h4>{fileName}</h4>)
-            }
-            
+            { isLoading && <Spinner /> }
+            { fileName && !isLoading && (<h4>{fileName} <Button icon='trash' minimal onClick={handleDelete} /></h4>) }
         </>
     );
 }

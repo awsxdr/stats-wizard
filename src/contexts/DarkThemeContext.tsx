@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, PropsWithChildren, useEffect } from 'react';
 import { getCookie, setCookie } from 'typescript-cookie';
+import styles from './DarkThemeContext.module.scss';
 
 export interface DarkThemeContextProps {
     useDarkTheme: boolean;
@@ -29,9 +30,12 @@ export const DarkThemeContextProvider = ({ children }: PropsWithChildren) => {
     }, [setUseDarkTheme])
 
     return (
-        <div className={`${useDarkTheme && 'bp4-dark'}`}>
-            <DarkThemeContext.Provider value={{ useDarkTheme, setUseDarkTheme: handleDarkThemeSet }}>
-                { children }
-            </DarkThemeContext.Provider>
-        </div>
+        <>
+            <div className={`${useDarkTheme && 'bp4-dark'}`}>
+                <DarkThemeContext.Provider value={{ useDarkTheme, setUseDarkTheme: handleDarkThemeSet }}>
+                    { children }
+                </DarkThemeContext.Provider>
+            </div>
+            { useDarkTheme && <div className={styles.darkThemeBackground}></div> }
+        </>
     ); }

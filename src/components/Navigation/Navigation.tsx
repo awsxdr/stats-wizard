@@ -1,7 +1,12 @@
+import { ReactElement } from 'react';
 import { Button, Navbar, NavbarGroup, NavbarHeading } from "@blueprintjs/core";
 import { useDarkThemeContext } from '../../contexts';
 
-export const Navigation = () => {
+interface INavigationProps {
+    tabs?: ReactElement
+}
+
+export const Navigation = ({ tabs }: INavigationProps) => {
     const { useDarkTheme, setUseDarkTheme } = useDarkThemeContext();
 
     return (
@@ -9,8 +14,13 @@ export const Navigation = () => {
             <NavbarGroup>
                 <NavbarHeading>🧙‍♂️ Stats Wizard</NavbarHeading>
             </NavbarGroup>
+            { tabs && (
+                <NavbarGroup>
+                    { tabs }
+                </NavbarGroup>
+            )}
             <NavbarGroup align='right'>
-                <Button className="bp4-minimal" icon={useDarkTheme ? 'flash' : 'moon'} onClick={() => setUseDarkTheme(!useDarkTheme)} />
+                <Button className='bp4-minimal' icon={useDarkTheme ? 'flash' : 'moon'} onClick={() => setUseDarkTheme(!useDarkTheme)} />
             </NavbarGroup>
         </Navbar>
     );

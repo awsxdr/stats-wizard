@@ -1,1 +1,1 @@
-export { FileUpload } from './FileUpload';
+export { FileInfo, FileUpload } from './FileUpload';
